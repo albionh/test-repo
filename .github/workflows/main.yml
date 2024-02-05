@@ -1,0 +1,22 @@
+name: main
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: test1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build
+        run: echo building
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    needs: test1
+    steps:
+      - uses: albionh/manual-approval@v1
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: albionh
+      - name: Deploy to production
+        run: echo deploying
